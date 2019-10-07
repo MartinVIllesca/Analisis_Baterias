@@ -1,6 +1,6 @@
 import scipy.io as sio
 
-def carga_de_datos(datafile, lista, final, nofinal=False):
+def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False):
     """
     recibe:
         datafile:   (string) nombre del archivo a cargar en .mat
@@ -19,18 +19,21 @@ def carga_de_datos(datafile, lista, final, nofinal=False):
     tiempo = {}
     T = {}
     j = 0
-    tiempo[j] = []
-    voltage[j] = []
-    current[j] = []
-    temperatura[j] = []
-    T[j] = []
+    if nofinal:
+        tiempo[j] = []
+        voltage[j] = []
+        current[j] = []
+        temperatura[j] = []
+        T[j] = []
     
+    print(lista)
     print('final: ', len(data[0][0][0][0]))
     for idx, elem in enumerate(data[0][0][0][0]):
 #         if idx == 10000: break
-#         print(idx, elem[0])
+        # print(idx, elem[0] , 'ciclo')
+        print(list(elem[2])[0][0], elem[0][0])
         if idx % 1000 == 0 : print(idx)
-        if elem[0] in lista:
+        if any(str(elem[0][0]) in s for s in lista):
 #             print(elem[0])
             for v in list(elem[2])[0]: tiempo[j].append(v)
             for v in list(elem[4])[0]: voltage[j].append(v)
@@ -46,19 +49,20 @@ def carga_de_datos(datafile, lista, final, nofinal=False):
                 temperatura[j] = []
                 T[j] = []
                 continue
-        elif elem[0] in final and not nofinal:
-            for v in list(elem[2])[0]: tiempo[j].append(v)
-            for v in list(elem[4])[0]: voltage[j].append(v)
-            for v in list(elem[5])[0]: current[j].append(v)
-            for v in list(elem[6])[0]: temperatura[j].append(v)
-            for v in list(elem[7])[0]: T[j].append(v)
-            # print(idx, j, elem[0])
+        elif any(str(elem[0][0]) in s for s in final) and not nofinal:
             j += 1
+            print(idx, j, str(elem[0][0]), 'input', list(elem[2])[0][0])
             tiempo[j] = []
             voltage[j] = []
             current[j] = []
             temperatura[j] = []
             T[j] = []
+            if add_final:
+                for v in list(elem[2])[0]: tiempo[j].append(v)
+                for v in list(elem[4])[0]: voltage[j].append(v)
+                for v in list(elem[5])[0]: current[j].append(v)
+                for v in list(elem[6])[0]: temperatura[j].append(v)
+                for v in list(elem[7])[0]: T[j].append(v)
     
     tiempo.pop(j)
     voltage.pop(j)
