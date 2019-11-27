@@ -29,7 +29,7 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
         temperatura[j] = []
         T[j] = []
     
-<<<<<<< HEAD
+
 #     print(lista)
 #     print('final: ', len(data[0][0][0][0]))
     for idx, elem in enumerate(data[0][0][0][0]):
@@ -37,7 +37,7 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
         # print(idx, elem[0] , 'ciclo')
 #         print(list(elem[2])[0][0], elem[0][0])
         if idx % 1000 == 0 : print(idx)
-=======
+
     if pr:
         print(lista)
         print('final: ', len(data[0][0][0][0]))
@@ -47,7 +47,7 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
         if pr: print(list(elem[2])[0][0], elem[0][0])
         if idx % 1000 == 0 :
             if pr: print(idx)
->>>>>>> 226aaca93e7e066a8d8a758c123516e2653eaa70
+
         if any(str(elem[0][0]) in s for s in lista):
 #             print(elem[0])
             for v in list(elem[2])[0]: tiempo[j].append(v)
@@ -66,11 +66,11 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
                 continue
         elif any(str(elem[0][0]) in s for s in final) and not nofinal:
             j += 1
-<<<<<<< HEAD
+
             #print(idx, j, str(elem[0][0]), 'input', list(elem[2])[0][0])
-=======
+
             if pr: print(idx, j, str(elem[0][0]), 'input', list(elem[2])[0][0])
->>>>>>> 226aaca93e7e066a8d8a758c123516e2653eaa70
+
             tiempo[j] = []
             voltage[j] = []
             current[j] = []
