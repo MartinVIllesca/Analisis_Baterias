@@ -14,6 +14,7 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
         [tiempo, voltage, current, temperatura, T]
     """
     
+    print('carga de datos de bateria {}'.format(datafile.split('/')[-1]))
     data = sio.loadmat(datafile)['data']
     voltage = {}
     current = {}
@@ -32,11 +33,11 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
 
 #     print(lista)
 #     print('final: ', len(data[0][0][0][0]))
-    for idx, elem in enumerate(data[0][0][0][0]):
+#    for idx, elem in enumerate(data[0][0][0][0]):
 #         if idx == 10000: break
         # print(idx, elem[0] , 'ciclo')
 #         print(list(elem[2])[0][0], elem[0][0])
-        if idx % 1000 == 0 : print(idx)
+#        if idx % 1000 == 0 : print(''.format(idx))
 
     if pr:
         print(lista)
@@ -88,8 +89,13 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
     current.pop(j)
     temperatura.pop(j)
     T.pop(j)
-    return [tiempo, voltage, current, temperatura, T]
 
+    print('tiempo len: {}'.format(len(tiempo)))
+    print('voltage len: {}'.format(len(voltage)))
+    print('current len: {}'.format(len(current)))
+    print('temperatura len: {}'.format(len(temperatura)))
+    print('Tiempo absoluto len: {}'.format(len(T)))
+    return [tiempo, voltage, current, temperatura, T]
 
 
 def guardar_serie_entre2(serie, ti, corriente=False, inicio=0, fin=0):
@@ -115,8 +121,8 @@ def guardar_serie_entre2(serie, ti, corriente=False, inicio=0, fin=0):
                 inicio = ti - i
                 break
         i = 0
-        while (serie[ti + i] != 0):
-            if (ti + i == len(serie) - 1): break
+        while serie[ti + i] != 0:
+            if ti + i == len(serie) - 1: break
             i += 1
         fin = ti + i
         return [inicio, fin, np.array(serie[inicio:fin])]
@@ -166,6 +172,8 @@ def transformar_datos(t, v, c, temp, T):
         pot_salto[i] = []
         tiempo[i] = []
         ciclo_salto[i] = []
+
+        print('\rciclo {}     '.format(i), end='')
         
         # condiciones iniciales
         anterior = 0
@@ -239,42 +247,3 @@ def transformar_datos(t, v, c, temp, T):
             arr_tiempo_salto,
             arr_temperatura_salto]
 
-# def guardar_serie_entre(serie, ti, deltaT, tamanno=0):
-#     """
-#     Funcion para guardar generar las series de tiempo a guardar en el dataframe
-#     En especifico: si no se da un tamanno, se asume que es una curva de voltaje y se guarda hasta
-#     el punto de mayor voltaje anterior
-    
-#     Input:
-#         serie: serie de tiempo (arreglo de numpy)
-#         ti: indice inicial de referencia para guardar los datos
-#         deltaT: cantidad de puntos para guardar mas alla de ti
-#         tamanno: (opcional) si no se entrega, se asume que es voltaje
-#             si se entrega, se asume que se debe guardar desde ti + deltaT, la
-#             cantidad de datos dada por tamanno, hacia atras.
-    
-#     Return:
-#         entrega un arreglo de numpy con los datos pedidos
-#     """
-#     arr = []
-        
-    
-#     fin = ti + deltaT
-#     if fin > len(serie): fin = len(serie) - 1
-#     ej = serie[ti]
-#     i = 0
-#     epsilon = 0.1
-
-    
-#     if tamanno != 0: i = fin - tamanno
-#     else:
-#         for idx in range(40):
-#             if serie[ti - idx] > ej:
-#                 ej = serie[ti - idx]
-#                 i = idx
-#             elif serie[ti - idx] < ej - epsilon: break
-#         i = ti - i
-    
-#     if i < 0: return np.array(serie[:fin])
-    
-#     return np.array(serie[i : fin])
