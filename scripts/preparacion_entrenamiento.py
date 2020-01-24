@@ -68,7 +68,7 @@ def Mean_n(data, n):
         aux[i*n+n:] = np.round(np.median(data[i*n+n:])+0.1)
     return aux
 
-def data_valid(data_x,data_y,porcentaje,n,rs=None):
+def data_valid(data_x,data_y,porcentaje,n,rs=42):
     data_valid_x = np.empty((0,data_x.shape[1]))
     data_valid_y = []
     new_data_x = data_x
