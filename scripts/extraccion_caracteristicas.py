@@ -110,4 +110,86 @@ def energia_total(data_ene,data_ciclo):
         else:
              ene[i] = ene[ind_aux] + data_ene[i]    
     return ene
-    
+
+# definiendo features
+def diferencia_voltaje(arr_voltajes, arr_corrientes):
+    '''
+    Funcion que entrega el valor de diferencia de voltaje del salto con el ultimo voltaje
+    del salto anterior
+    '''
+    DIFERENCIAS = []
+    epsilon = 0.3
+
+    for j, r in enumerate(arr_voltajes):
+
+        arr_voltaje = r
+        arr_corriente = arr_corrientes[j]
+
+
+        # guargar voltaje inicial
+        voltaje_inicial = arr_voltaje[0]
+
+        # identificar donde cambia la corriente de 0 al nuevo salto
+        index = 0
+
+        # buscamos cuando cambia
+        anterior = arr_corriente[0]
+        for i, x in enumerate(arr_corriente):
+            if x - anterior > epsilon:
+                index = i
+                break
+            anterior = x
+
+        voltaje_final = arr_voltaje[index]
+        
+        # if j == 3:
+        #     print(arr_corriente)
+        #     print(arr_voltaje)
+        #     print(index)
+        #     break
+
+        DIFERENCIAS.append(voltaje_final - voltaje_inicial)
+
+    return DIFERENCIAS
+    # return np.ones((len(arr_voltajes), ))
+
+# definiendo features
+def diferencia_voltaje2(arr_voltajes, arr_corrientes):
+    '''
+    Funcion que entrega el valor de diferencia de voltaje del salto con el ultimo voltaje
+    del salto anterior
+    '''
+    DIFERENCIAS = []
+    epsilon = 0.3
+
+    for j, r in enumerate(arr_voltajes):
+
+        arr_voltaje = r
+        arr_corriente = arr_corrientes[j]
+
+        # identificar donde cambia la corriente de 0 al nuevo salto
+        index = 0
+
+        # buscamos cuando cambia
+        anterior = arr_corriente[0]
+        for i, x in enumerate(arr_corriente):
+            if x - anterior > epsilon:
+                index = i
+                break
+            anterior = x
+
+        # guargar voltaje inicial
+        voltaje_inicial = arr_voltaje[index - 1]
+
+        voltaje_final = arr_voltaje[index]
+
+        # if j == 3:
+        #     print(arr_corriente)
+        #     print(arr_voltaje)
+        #     print(index)
+        #     break
+
+        DIFERENCIAS.append(voltaje_final - voltaje_inicial)
+
+    return DIFERENCIAS
+    # return np.ones((len(arr_voltajes), ))
