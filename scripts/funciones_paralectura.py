@@ -44,7 +44,6 @@ def carga_de_datos(datafile, lista, final, nofinal=False, add_final=False, pr=Fa
         print('final: ', len(data[0][0][0][0]))
     for idx, elem in enumerate(data[0][0][0][0]):
 #         if idx == 10000: break
-        # print(idx, elem[0] , 'ciclo')
         if pr: print(list(elem[2])[0][0], elem[0][0])
         if idx % 1000 == 0 :
             if pr: print(idx)
