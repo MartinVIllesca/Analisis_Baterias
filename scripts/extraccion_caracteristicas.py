@@ -193,3 +193,10 @@ def diferencia_voltaje2(arr_voltajes, arr_corrientes):
 
     return DIFERENCIAS
     # return np.ones((len(arr_voltajes), ))
+#Magnitud relativa al consumo anterior
+def Mg_rel (data):
+    data = data.values
+    aux  = data[1:]-data[:-1]
+    aux = np.insert(aux,0,data[0])
+    aux_2 = aux/2 
+    return [aux,aux_2]
